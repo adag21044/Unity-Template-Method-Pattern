@@ -4,6 +4,6 @@ public class BackwardCubeMover : CubeMover
 {
     protected override Vector3 GetDirection()
     {
-        return Vector3.back; // Geri yön
+        return Vector3.back; 
     }
 }

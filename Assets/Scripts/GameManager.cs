@@ -39,16 +39,16 @@ public class GameManager : MonoBehaviour
 
     private void MoveCube(string direction)
     {
-        // Önceki hareketi kaldır
+        
         if (activeMover != null)
         {
             Destroy(activeMover);
         }
 
-        // Yeni bir küp hareket ettirici oluştur
+        
         activeMover = moverFactory.GetCubeMover(direction, cube);
 
-        // Küpü hareket ettir
+        
         if (activeMover != null)
         {
             activeMover.MoveCube();
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
     {
         if (activeMover != null)
         {
-            Destroy(activeMover); // Hareketi durdurmak için component'i kaldır
+            Destroy(activeMover); 
         }
     }
 }
