@@ -15,6 +15,6 @@ public abstract class CubeMover : MonoBehaviour
     
     protected void MoveInDirection(Vector3 direction)
     {
-        transform.Translate(direction * Time.deltaTime * 5); // Hareket hızı
+        transform.Translate(direction * Time.deltaTime * 5); 
     }
 }
