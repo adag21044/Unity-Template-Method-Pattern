@@ -2,14 +2,8 @@ using UnityEngine;
 
 public class BackwardCubeMover : CubeMover
 {
-    public override void GetMovementInfo()
+    protected override Vector3 GetDirection()
     {
-        Debug.Log("Moving backward");
-    }
-
-    public override void MoveAlongPath()
-    {
-        Debug.Log("Moving backward cube along path");
-        transform.Translate(Vector3.back * Time.deltaTime * 5);
+        return Vector3.back; // Geri yön
     }
 }

@@ -2,28 +2,53 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject cubePrefab;
-    private CubeFactory cubeFactory;
-    private CubeObserver cubeObserver;
+    public GameObject cubePrefab; // Küp prefab referansı
+    private CubeMoverFactory moverFactory;
+    private MovementObserver observer;
+    private CubeMover activeMover;
 
     void Start()
     {
-        cubeFactory = gameObject.AddComponent<CubeFactory>();
-        cubeObserver = gameObject.AddComponent<CubeObserver>();
+        moverFactory = new CubeMoverFactory();
+        observer = gameObject.AddComponent<MovementObserver>();
+    }
 
-        // Create two different types of cube
-        GameObject forwardCube = Instantiate(cubePrefab);
-        GameObject backwardCube = Instantiate(cubePrefab);
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            MoveCube("W");
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            MoveCube("S");
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            MoveCube("A");
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            MoveCube("D");
+        }
+    }
 
-        //Create cubes and attach movers
-        CubeMover forwardMover = cubeFactory.CreateMover("Forward", forwardCube);
-        CubeMover backwardMover = cubeFactory.CreateMover("Backward", backwardCube);
+    private void MoveCube(string direction)
+    {
+        // Önceki hareketi kaldır
+        if (activeMover != null)
+        {
+            Destroy(activeMover);
+        }
 
-        // Move cubes
-        forwardMover.Move();
-        cubeObserver.Notify("Forward");
+        // Yeni bir küp hareket ettirici oluştur
+        activeMover = moverFactory.GetCubeMover(direction, cubePrefab);
 
-        backwardMover.Move();
-        cubeObserver.Notify("Backward"); 
+        // Küpü hareket ettir
+        if (activeMover != null)
+        {
+            activeMover.MoveCube();
+            observer.NotifyMovement(direction);
+        }
     }
 }

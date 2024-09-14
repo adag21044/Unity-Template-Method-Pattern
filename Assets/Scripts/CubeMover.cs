@@ -2,21 +2,19 @@ using UnityEngine;
 
 public abstract class CubeMover : MonoBehaviour
 {
-    // Template Method: Defines a fixed algorithm structure, subclasses change certain steps 
-    public void Move()
+    // Template Method: Hareketin ana şablonunu tanımlar
+    public void MoveCube()
     {
-        GetMovementInfo();
-        MoveAlongPath();
-        DebugMovement();
+        Vector3 direction = GetDirection();
+        MoveInDirection(direction);
     }
 
-    // Some of the workflow is fixed here
-    public abstract void GetMovementInfo(); // Subclasses customize this step
-    public abstract void MoveAlongPath(); // Subclasses customize this step
+    // Alt sınıfların hangi yönde hareket edeceğini belirtmesi gerekiyor
+    protected abstract Vector3 GetDirection();
 
-    // Non-overridden step
-    protected virtual void DebugMovement()
+    // Ortak hareket mantığı: Her alt sınıf yönü belirledikten sonra bu metot kullanılır
+    protected void MoveInDirection(Vector3 direction)
     {
-        Debug.Log("Moving cube");
+        transform.Translate(direction * Time.deltaTime * 5); // Hareket hızı
     }
 }
