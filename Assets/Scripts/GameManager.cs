@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject cubePrefab; // Küp prefab referansı
+    public GameObject cube; 
     private CubeMoverFactory moverFactory;
     private MovementObserver observer;
     private CubeMover activeMover;
@@ -15,21 +15,25 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKey(KeyCode.W))
         {
             MoveCube("W");
         }
-        else if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKey(KeyCode.S))
         {
             MoveCube("S");
         }
-        else if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
             MoveCube("A");
         }
-        else if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.D))
         {
             MoveCube("D");
+        }
+        else
+        {
+            StopCube();
         }
     }
 
@@ -42,13 +46,21 @@ public class GameManager : MonoBehaviour
         }
 
         // Yeni bir küp hareket ettirici oluştur
-        activeMover = moverFactory.GetCubeMover(direction, cubePrefab);
+        activeMover = moverFactory.GetCubeMover(direction, cube);
 
         // Küpü hareket ettir
         if (activeMover != null)
         {
             activeMover.MoveCube();
             observer.NotifyMovement(direction);
+        }
+    }
+
+    private void StopCube()
+    {
+        if (activeMover != null)
+        {
+            Destroy(activeMover); // Hareketi durdurmak için component'i kaldır
         }
     }
 }
